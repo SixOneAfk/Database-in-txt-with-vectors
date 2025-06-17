@@ -61,18 +61,42 @@ void readFromFile(vector<Car>& cars, const string& filename) {
 	cout << "Loaded " << cars.size() << " cars from file." << endl;
 }
 
+void deleteObject(vector<Car>& cars, const string& filename) {
+	if (cars.empty()) {
+		cout << "No data available" << endl;
+		return;
+	}
+
+	for (size_t i = 0; i < cars.size(); ++i) {
+		cout << i << ' ' << cars[i].label << ' ' << cars[i].model << endl;
+	}
+
+	int index;
+	cout << "Enter index of object to delete: ";
+	cin >> index;
+
+	if (index < 0 || index >= cars.size()) {
+		cerr << "Invalid index" << endl;
+		return;
+	}
+
+	cars.erase(cars.begin() + index);
+	saveToFile(cars, filename);
+}
+
 int main() {
 	vector<Car> cars;
 	const string filename = "data.txt";
 
 	int choice = 0;
-	while (choice != 4) {
+	while (choice != 5) {
 
 		cout << "\nMenu:\n";
 		cout << "1. Add car\n";
 		cout << "2. View all cars\n";
 		cout << "3. Read data from file\n";
-		cout << "4. Save and exit\n";
+		cout << "4. Delete car\n";
+		cout << "5. Save and exit\n";
 		cout << "Enter your choice: ";
 
 		cin >> choice;
@@ -105,7 +129,12 @@ int main() {
 				readFromFile(cars, filename);
 				break;
 			}
-			case 4: 
+			case 4:
+			{
+				deleteObject(cars, filename);
+				break;
+			}
+			case 5: 
 			{
 				saveToFile(cars, filename);
 				cout << "Exiting.." << endl;
@@ -113,6 +142,7 @@ int main() {
 			}
 
 		}
+
 
 
 		
